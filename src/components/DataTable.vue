@@ -11,8 +11,8 @@ defineProps({
     <div>
         <table>
             <tr
-                v-for="item in items"
-                :key="item.id"
+                v-for="(item, index) in items"
+                :key="index"
             >
                 <td>{{ item.id }}</td>
             </tr>

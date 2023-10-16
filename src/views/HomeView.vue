@@ -1,14 +1,17 @@
 <script setup>
 import DataTable from '@/components/DataTable.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
-const items = [
-    {
-        id: 1,
-    },
-    {
-        id: 2,
-    },
-]
+let items = ref([])
+
+onMounted(async () => {
+    const response = await fetch('http://localhost:3001/items')
+    items.value = await response.json()
+})
+
+onUnmounted(() => {
+    items.value = []
+})
 </script>
 
 <style lang="scss" scoped></style>
