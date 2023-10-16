@@ -14,7 +14,7 @@ const items = [
 <style lang="scss" scoped></style>
 
 <template>
-    <div class="p-8 bg-gray-100 min-h-screen">
+    <div class="min-h-screen bg-gray-100 p-8">
         <DataTable :items="items" />
     </div>
 </template>
