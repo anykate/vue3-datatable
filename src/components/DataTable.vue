@@ -5,6 +5,7 @@ import SearchForm from '@/components/SearchForm.vue'
 import { computed, ref } from 'vue'
 
 const searchFilter = ref('')
+const radioFilter = ref('')
 
 const props = defineProps({
     items: {
@@ -14,9 +15,26 @@ const props = defineProps({
 })
 
 const filteredItems = computed(() => {
-    if (searchFilter.value.trim().length === 0) return props.items
+    let items = props.items
 
-    return props.items.filter(
+    switch (radioFilter.value) {
+        case 'today':
+            // show items due today
+            items = items.filter((item) => new Date(item.due_at) === new Date())
+            break
+
+        case 'past':
+            // show items past due
+            items = items.filter((item) => new Date(item.due_at) < new Date())
+            break
+
+        default:
+            break
+    }
+
+    if (searchFilter.value.trim().length === 0) return items
+
+    return items.filter(
         (item) =>
             item.title
                 .toLowerCase()
@@ -30,6 +48,10 @@ const filteredItems = computed(() => {
 const handleSearch = (search) => {
     searchFilter.value = search
 }
+
+const handleRadioFilter = (filter) => {
+    radioFilter.value = filter
+}
 </script>
 
 <template>
@@ -37,12 +59,15 @@ const handleSearch = (search) => {
         <div class="flex items-center justify-between">
             <!-- Search bar -->
             <SearchForm @search="handleSearch" />
-            <div class="text-2xl font-extrabold">
-                {{ filteredItems.length }}
-            </div>
-            <div class="flex items-center justify-end text-sm font-semibold">
+            <div class="text-2xl font-extrabold"></div>
+            <div
+                class="mr-5 flex items-center justify-end text-sm font-semibold"
+            >
                 <!-- Radio buttons -->
-                <FilterRadios />
+                <FilterRadios @filter="handleRadioFilter" />
+                <div class="text-sm text-gray-400">
+                    Records# {{ filteredItems.length }}
+                </div>
                 <!-- List of filters for statuses -->
                 <FilterDropdown />
             </div>
