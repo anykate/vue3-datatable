@@ -11,15 +11,16 @@ const search = (e) => {
         <label
             for="search"
             class="sr-only"
-            >Search</label
         >
+            Search
+        </label>
         <div class="relative w-full">
             <input
+                id="search"
                 type="text"
                 placeholder="Search..."
-                id="search"
-                @input="search"
                 class="rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900"
+                @input="search"
             />
         </div>
     </form>

@@ -14,10 +14,10 @@ onUnmounted(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
-
 <template>
     <div class="min-h-screen bg-gray-100 p-8">
         <DataTable :items="items" />
     </div>
 </template>
+
+<style lang="scss" scoped></style>
