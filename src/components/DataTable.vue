@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 
 const searchFilter = ref('')
 const radioFilter = ref('')
+const statusListFilter = ref([])
 
 const props = defineProps({
     items: {
@@ -32,6 +33,12 @@ const filteredItems = computed(() => {
             break
     }
 
+    if (statusListFilter.value.length) {
+        items = items.filter((item) =>
+            statusListFilter.value.includes(item.status)
+        )
+    }
+
     if (searchFilter.value.trim().length === 0) return items
 
     return items.filter(
@@ -52,10 +59,30 @@ const handleSearch = (search) => {
 const handleRadioFilter = (filter) => {
     radioFilter.value = filter
 }
+
+const handleCheckboxFilter = (filter, m) => {
+    if (statusListFilter.value.includes(filter)) {
+        return statusListFilter.value.splice(
+            statusListFilter.value.indexOf(filter),
+            1
+        )
+    }
+
+    return statusListFilter.value.push(filter)
+}
+
+const handleResetStatusList = (check) => {
+    if (check) {
+        statusListFilter.value = []
+    }
+}
 </script>
 
 <template>
     <div class="relative rounded-lg border bg-white">
+        <div class="mt-3 pl-3 text-sm text-gray-500">
+            Records# {{ filteredItems.length }}
+        </div>
         <div class="flex items-center justify-between">
             <!-- Search bar -->
             <SearchForm @search="handleSearch" />
@@ -65,11 +92,12 @@ const handleRadioFilter = (filter) => {
             >
                 <!-- Radio buttons -->
                 <FilterRadios @filter="handleRadioFilter" />
-                <div class="text-sm text-gray-400">
-                    Records# {{ filteredItems.length }}
-                </div>
                 <!-- List of filters for statuses -->
-                <FilterDropdown />
+                <FilterDropdown
+                    :items="items"
+                    @filter="handleCheckboxFilter"
+                    @reset-status-list="handleResetStatusList"
+                />
             </div>
         </div>
         <table class="w-full text-left text-sm text-gray-500">
