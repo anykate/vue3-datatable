@@ -61,7 +61,7 @@ const handleRadioFilter = (filter) => {
             <SearchForm @search="handleSearch" />
             <div class="text-2xl font-extrabold"></div>
             <div
-                class="mr-5 flex items-center justify-end text-sm font-semibold"
+                class="mr-5 flex text-sm font-semibold max-md:flex-col max-md:justify-center max-md:space-y-3 md:flex-row md:items-center md:justify-end"
             >
                 <!-- Radio buttons -->
                 <FilterRadios @filter="handleRadioFilter" />
