@@ -29,6 +29,11 @@ const filteredItems = computed(() => {
             items = items.filter((item) => new Date(item.due_at) < new Date())
             break
 
+        case 'future':
+            // show items due after today
+            items = items.filter((item) => new Date(item.due_at) > new Date())
+            break
+
         default:
             break
     }
